@@ -27,7 +27,7 @@ const uploadImage = catchAsyncError(
                 const filename = name + "_" + timeStamp + ".webp";
                 const imageRef = ref(
                     storage,
-                    "adInventory/" + req.body.path + "/" + filename
+                    "e-commerce/" + req.body.path + "/" + filename
                 );
                 const metaData = {
                     contentType:
