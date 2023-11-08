@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import User from "../model/user";
+import User, { IUser } from "../model/user";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import ErrorHandler from "../util/error";
 import { JWT_SECRET } from "../util/credential";
@@ -42,6 +42,27 @@ export const isAuthenticated = async (
         // console.log(req.user);
 
         next();
+    } catch (err) {
+        next(err);
+    }
+};
+export const userAuthorization = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        if (hasUserProperty(req)) {
+            const user = await User.findOne({ email: req.user.email });
+
+            if (!user) {
+                return res
+                    .status(401)
+                    .json({ status: false, message: "Unauthorized" });
+            }
+            req.user = user as IUser;
+            next();
+        }
     } catch (err) {
         next(err);
     }
