@@ -7,13 +7,13 @@ const {
 } = require("firebase/storage");
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDiwkDNiNvhqEXxhhK7cib6tal_uMhhDPY",
-    authDomain: "mani-c739b.firebaseapp.com",
-    projectId: "mani-c739b",
-    storageBucket: "mani-c739b.appspot.com",
-    messagingSenderId: "567685674406",
-    appId: "1:567685674406:web:222268e1e393e502058b67",
-    measurementId: "G-N6EPNQJG00",
+    apiKey: "AIzaSyCzVO4Qdqpew5C4yHPfD0y6tPgNby36dtU",
+    authDomain: "ecommerce-a7061.firebaseapp.com",
+    projectId: "ecommerce-a7061",
+    storageBucket: "ecommerce-a7061.appspot.com",
+    messagingSenderId: "473417194276",
+    appId: "1:473417194276:web:748cc909500d0fec19b1b1",
+    measurementId: "G-K83SYTXLP7",
 };
 
 // Initialize Firebase
