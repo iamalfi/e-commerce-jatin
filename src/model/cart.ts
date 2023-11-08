@@ -1,12 +1,12 @@
-import mongoose, { Document, Schema, Model } from "mongoose";
+import mongoose, { Document, Schema, Model, ObjectId } from "mongoose";
 
 // Define an interface for the Cart document
 // Define types for your models
 
 export interface ICart extends Document {
-    userId: mongoose.Types.ObjectId;
+    userId: ObjectId;
     items: Array<{
-        productId: mongoose.Types.ObjectId;
+        productId: ObjectId;
         quantity: number;
     }>;
     totalPrice: number;
@@ -50,5 +50,3 @@ const cartSchema = new Schema(
 );
 
 export default mongoose.model<ICart>("Cart", cartSchema);
-
-// Create a Mongoose schema for the Cart
