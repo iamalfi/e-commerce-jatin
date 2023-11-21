@@ -11,13 +11,11 @@ const updateCart = catchAsyncError(
             const data = req.body;
             let { productId, cartId, removeProduct, ...a } = data;
 
-            // Find the product with the given productId
             let product = await Product.findById({ _id: productId });
             if (!product) {
                 return next(new ErrorHandler(400, "product does not exist"));
             }
 
-            // Find the user's cart by userId and cartId
             let cart = await Cart.findOne({
                 userId: req.user._id,
                 _id: cartId,
@@ -28,7 +26,6 @@ const updateCart = catchAsyncError(
                     new ErrorHandler(400, "productd products to cart first")
                 );
 
-            // Find the specific product in the cart by productId
             let productsInCart = cart.items.find(
                 (product: { productId: any }) => product.productId == productId
             );
@@ -50,7 +47,6 @@ const updateCart = catchAsyncError(
                 );
             }
 
-            // Remove the item from the cart
             if (removeProduct == 0 || productsInCart.quantity == 1) {
                 cart.items.splice(productsIndex, 1);
                 let updatedTotalPrice =
@@ -72,7 +68,6 @@ const updateCart = catchAsyncError(
                 });
             }
 
-            // Reduce the quantity of the item in the cart
             if (removeProduct == 1) {
                 productsInCart.quantity = productsInCart.quantity - 1;
                 cart.items.splice(productsIndex, 1, productsInCart);

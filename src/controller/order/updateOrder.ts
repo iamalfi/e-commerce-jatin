@@ -8,7 +8,6 @@ const updateOrder = catchAsyncError(
     async (req: Request, res: Response, next: NextFunction) => {
         if (hasUserProperty(req)) {
             const removeAd = req.body.removeAd;
-            // Find the ad with the given adId
             let product = await Product.findById({ _id: req.body.productId });
             if (!product) {
                 return next(new ErrorHandler(404, "Product does not exist"));
@@ -28,7 +27,7 @@ const updateOrder = catchAsyncError(
             }
             if (removeAd === 1) {
                 if (order.total_amount && order.items?.quantity) {
-                    order.total_amount -= product.price; // Replace this with the actual price of the product
+                    order.total_amount -= product.price;
                     order.items.quantity--;
 
                     const updatedOrder = await order.save();

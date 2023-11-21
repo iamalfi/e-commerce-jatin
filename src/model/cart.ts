@@ -1,8 +1,5 @@
 import mongoose, { Document, Schema, Model, ObjectId } from "mongoose";
 
-// Define an interface for the Cart document
-// Define types for your models
-
 export interface ICart extends Document {
     userId: ObjectId;
     items: Array<{
@@ -14,7 +11,6 @@ export interface ICart extends Document {
     createdAt: Date;
     updatedAt: Date;
 }
-// src/models/User.ts
 const cartSchema = new Schema(
     {
         userId: {

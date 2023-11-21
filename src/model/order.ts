@@ -21,7 +21,6 @@ export interface IOrder extends Document {
     total_items: number;
     total_amount: number;
 }
-// src/models/User.ts
 const orderSchema = new Schema(
     {
         userId: {
@@ -69,6 +68,10 @@ const orderSchema = new Schema(
         total_amount: {
             type: Number,
             default: 0,
+        },
+        isReturn: {
+            type: Boolean,
+            default: false,
         },
     },
     { timestamps: true }

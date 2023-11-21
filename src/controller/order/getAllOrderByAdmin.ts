@@ -10,7 +10,7 @@ const getAllOrderByAdmin = catchAsyncError(
                 .populate({
                     path: "userId",
                     model: "User",
-                    select: "-Password -__v", // Specify the fields you want to exclude
+                    select: "-Password -__v",
                 })
                 .populate({
                     path: "items.productId",
@@ -20,7 +20,7 @@ const getAllOrderByAdmin = catchAsyncError(
                 .populate({
                     path: "cartId",
                     model: "Cart",
-                    select: "-__v", // Replace with your actual Ad model name
+                    select: "-__v",
                 })
 
                 .exec();
