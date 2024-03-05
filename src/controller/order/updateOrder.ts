@@ -4,6 +4,8 @@ import catchAsyncError from "../../middleware/catchAsyncerror";
 import ErrorHandler from "../../util/error";
 import Order, { IOrder } from "../../model/order";
 import Product from "../../model/product";
+import items from "razorpay/dist/types/items";
+
 const updateOrder = catchAsyncError(
     async (req: Request, res: Response, next: NextFunction) => {
         if (hasUserProperty(req)) {
@@ -14,8 +16,9 @@ const updateOrder = catchAsyncError(
             }
 
             if (removeAd !== 1) {
-                return next(new ErrorHandler(400, "Put  1 to remove"));
+                return next(new ErrorHandler(400, "Put 1 to remove"));
             }
+
             const order = await Order.findOne({
                 orderShortId: req.body.orderShortId,
             });
@@ -25,21 +28,38 @@ const updateOrder = catchAsyncError(
                     message: "Order not found",
                 });
             }
-            if (removeAd === 1) {
-                if (order.total_amount && order.items?.quantity) {
-                    order.total_amount -= product.price;
-                    order.items.quantity--;
 
-                    const updatedOrder = await order.save();
+            if (removeAd === 1) {
+                if (order.total_amount && order.items) {
+                    // Loop through each item in the array and update the quantity
+                    order.items.forEach((item) => {
+                        item.quantity--;
+                    });
+
+                    // Remove items with quantity 0
+                    order.items = order.items.filter(
+                        (item) => item.quantity !== 0
+                    );
+
+                    order.total_amount -= product.price;
+
+                    await order.save();
+
+                    if (order.total_amount == 0) {
+                        await Order.findOneAndDelete({
+                            _id: order._id,
+                        });
+                    }
 
                     return res.status(200).json({
                         success: true,
                         message: "Updated successfully",
-                        data: updatedOrder,
+                        order,
                     });
                 }
             }
         }
     }
 );
+
 export default updateOrder;

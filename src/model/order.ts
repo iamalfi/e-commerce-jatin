@@ -1,14 +1,14 @@
 import mongoose, { Schema, Document, ObjectId } from "mongoose";
 import generateSlugId from "./generateId";
 interface OrderItem {
-    productId: ObjectId;
+    productId: string;
     quantity: number;
 }
 export interface IOrder extends Document {
     userId: ObjectId;
     cartId: ObjectId;
     productId: ObjectId;
-    items: OrderItem;
+    items: OrderItem[];
     orderShortId: string;
     status:
         | "Ordered"
@@ -53,18 +53,18 @@ const orderSchema = new Schema(
             ],
             default: "Pending",
         },
-        items: {
-            productId: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Product",
-                required: true,
+        items: [
+            {
+                productId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Product",
+                },
+                quantity: {
+                    type: Number,
+                    minLength: 1,
+                },
             },
-            quantity: {
-                type: Number,
-                required: true,
-                minLength: 1,
-            },
-        },
+        ],
         total_amount: {
             type: Number,
             default: 0,
